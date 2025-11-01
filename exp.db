@@ -1,0 +1,35 @@
+USE expense_tracker;
+
+-- Drop tables if they exist with wrong structure
+DROP TABLE IF EXISTS expenses;
+DROP TABLE IF EXISTS income;
+DROP TABLE IF EXISTS users;
+
+-- Create users table first
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+-- Then create expenses with proper structure
+CREATE TABLE IF NOT EXISTS expenses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    expense_name VARCHAR(255),
+    amount DECIMAL(10,2),
+    date DATE,
+    category VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Create income table
+CREATE TABLE IF NOT EXISTS income (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    source VARCHAR(255),
+    amount DECIMAL(10,2),
+    date DATE,
+    category VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
